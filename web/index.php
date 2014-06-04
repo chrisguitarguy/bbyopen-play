@@ -7,4 +7,6 @@
  * @license     http://opensource.org/licenses/MIT MIT
  */
 
+require __DIR__.'/../vendor/autoload.php';
+
 (new Kernel())->run();
