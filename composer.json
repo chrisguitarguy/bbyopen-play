@@ -1,0 +1,23 @@
+{
+    "name": "chrisguitarguy/bbyopen-play"
+    , "description": "Playing with the Best Buy API"
+    , "require": {
+        "php": ">=5.4"
+        , "guzzlehttp/guzzle": "~4.1"
+        , "silex/silex": "~1.2"
+        , "symfony/twig-bridge": "~2.4"
+        , "twig/twig": "~1.15"
+    }
+    , "require-dev": {
+        "demeanor/demeanor": "dev-master"
+    }
+    , "autoload": {
+        "psr-4": {
+            "Chrisguitarguy\\BbyOpenPlay\\": "src/"
+        }
+        , "files": [
+            "app/Kernel.php"
+        ]
+    }
+    , "minimum-stability": "dev"
+}

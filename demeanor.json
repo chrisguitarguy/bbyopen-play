@@ -1,0 +1,8 @@
+{
+    "testsuites": {
+        "unit": {
+            "bootstrap": "test/unit/bootstrap.php"
+            , "directories": "test/unit"
+        }
+    }
+}
