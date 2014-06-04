@@ -9,6 +9,9 @@
 
 use Silex\Application;
 use Silex\Provider\TwigServiceProvider;
+use Silex\Provider\ServiceControllerServiceProvider;
+use Chrisguitarguy\BbyOpenPlay\BbyOpenClient;
+use Chrisguitarguy\BbyOpenPlay\Controller;
 
 class Kernel extends Application
 {
@@ -20,6 +23,7 @@ class Kernel extends Application
 
         $this->env = $env ?: 'dev';
 
+        $this->register(new ServiceControllerServiceProvider());
         $this->register(new TwigServiceProvider(), [
             'twig.path'     => __DIR__.'/views',
             'twig.options'  => function ($app) {
@@ -29,5 +33,19 @@ class Kernel extends Application
                 ];
             },
         ]);
+
+        $this->registerServices();
+        $this->get('/', 'controller:indexAction');
+    }
+
+    private function registerServices()
+    {
+        $this['client'] = function () {
+            return new BbyOpenClient(getenv('BBY_APIKEY'));
+        };
+
+        $this['controller'] = function ($app) {
+            return new Controller($app['twig'], $app['client']);
+        };
     }
 }
