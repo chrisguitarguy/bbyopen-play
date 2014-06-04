@@ -64,7 +64,7 @@ class BbyOpenClient
             ],
         ]);
 
-        return $response->getBody();
+        return json_decode($response->getBody(), true);
     }
 
     private function buildPriceSearch(array $searchAttr)
