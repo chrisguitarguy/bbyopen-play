@@ -8,7 +8,7 @@
  */
 
 use Silex\Application;
-use Silex\TwigServiceProvider;
+use Silex\Provider\TwigServiceProvider;
 
 class Kernel extends Application
 {
