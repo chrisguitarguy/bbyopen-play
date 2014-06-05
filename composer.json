@@ -8,9 +8,6 @@
         , "symfony/twig-bridge": "~2.4"
         , "twig/twig": "~1.15"
     }
-    , "require-dev": {
-        "demeanor/demeanor": "dev-master"
-    }
     , "autoload": {
         "psr-4": {
             "Chrisguitarguy\\BbyOpenPlay\\": "src/"
@@ -19,5 +16,4 @@
             "app/Kernel.php"
         ]
     }
-    , "minimum-stability": "dev"
 }
