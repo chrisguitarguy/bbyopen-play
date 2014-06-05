@@ -80,7 +80,7 @@ class BbyOpenClient
             $parts[] = sprintf('regularPrice<=%s', $searchAttr['maximum-price']);
         }
 
-        return $parts ? sprintf('(%s)', implode('|', $parts)) : null;
+        return $parts ? sprintf('(%s)', implode('&', $parts)) : null;
     }
 
     private function buildMarketplaceSearch(array $searchAttr)
