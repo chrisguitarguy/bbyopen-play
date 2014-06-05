@@ -61,6 +61,7 @@ class BbyOpenClient
                 'apiKey'    => $this->apiKey,
                 'pageSize'  => $perPage ?: self::DEFAULT_PERPAGE,
                 'page'      => intval($page) ?: 1,
+                'show'      => 'sku,name,salePrice,regularPrice,url,condition'
             ],
         ]);
 
