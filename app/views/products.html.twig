@@ -1,0 +1,83 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+<form method="GET">
+    <div class="row form-row">
+        <div class="small-12 medium-6 columns">
+            <input name="keyword" class="small-12" placeholder="Product Name" value="{{ search.keyword }}" />
+        </div>
+        <div class="small-12 medium-3 columns">
+            <input name="minimum-price" class="small-12" placeholder="Minimum Price" value="{{ search['minimum-price'] }}" />
+        </div>
+        <div class="small-12 medium-3 columns">
+            <input name="maximum-price" class="small-12" placeholder="Maximum Price" value="{{ search['maximum-price'] }}"  />
+        </div>
+    </div>
+    <div class="row form-row">
+        <div class="small-12 columns">
+            <label for="new">
+                <input type="checkbox" name="new" id="new" value="1" {% if search.new %}checked="checked"{% endif %} />
+                Include New Products
+            </label>
+            <label for="marketplace">
+                <input type="checkbox" name="marketplace" id="marketplace" value="1" {% if search.marketplace %}checked="checked"{% endif %}  />
+                Only Marketplace Products
+            </label>
+            <label for="per-page">
+                <input type="number" name="per-page" id="per-page" value="{{ search['per-page'] }}" step="10" />
+                Products Per Page
+            </label>
+            <p class="button-wrap">
+                <button class="button small" type="submit">Search</button>
+            </p>
+        </div>
+    </div>
+</form>
+
+{% if products %}
+<div class="row">
+    <div class="small-12 columns">
+        <h2>Products</h2>
+        <table>
+            <thead>
+                <tr>
+                    <td>SKU</td>
+                    <td>Product Name</td>
+                    <td>Condition</td>
+                    <td>Price</td>
+                    <td>Sale Price</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>
+                        <a href="{{ product.url }}">{{ product.sku }}</a>
+                    </td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.condition }}</td>
+                    <td>${{ product.regularPrice|number_format(2, '.', ',') }}</td>
+                    <td>${{ product.salePrice|number_format(2, '.', ',') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="small-6 columns">
+        {% if prevLink %}
+            <a href="{{ prevLink }}">&laquo; Previous</a>
+        {% endif %}
+    </div>
+    <div class="small-6 columns text-right">
+        {% if nextLink %}
+            <a href="{{ nextLink }}">Next &raquo;</a>
+        {% endif %}
+    </div>
+</div>
+{% else %}
+    <h2 class="text-center no-prod">No Products Found.</h2>
+{% endif %}
+<p>&nbsp;</p>
+{% endblock %}

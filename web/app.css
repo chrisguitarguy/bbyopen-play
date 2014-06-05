@@ -1,0 +1,28 @@
+table {
+  width: 100%;
+}
+
+.top-bar {
+  margin-bottom: 3em;
+}
+
+.form-row {
+  margin-bottom: 1em;
+}
+ 
+.form-row input[type="checkbox"] {
+  margin-bottom: 0;
+}
+
+.button-wrap {
+  margin-top: 1em;
+}
+
+#per-page {
+  display: inline;
+  width: 60px;
+}
+
+.no-prod {
+  color: #ccc;
+}

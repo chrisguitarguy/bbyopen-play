@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+<head>
+    <title>{% block title %}BBYOpen Product Search{% endblock %}</title>
+
+    <link rel="stylesheet" type="text/css"  href="/foundation/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="/foundation/css/foundation.min.css" />
+    <link rel="stylesheet" type="text/css" href="/app.css" />
+    {% block stylesheets %}{% endblock %}
+
+    <script type="text/javascript" src="/foundation/js/vendor/modernizr.js"></script>
+    <script type="text/javascript" src="/foundation/js/vendor/jquery.js"></script>
+    <script type="text/javascript" src="/foundation/js/vendor/placeholder.js"></script>
+    <script type="text/javascript" src="/foundation/js/foundation.min.js"></script>
+    <script type="text/javascript">
+        (function ($) {
+            $(document).foundation();
+        }(jQuery));
+    </script>
+    {% block javascripts %}{% endblock %}
+</head>
+<body>
+    <nav class="top-bar" data-topbar>
+        <ul class="title-area">
+            <li class="name"><h1><a href="#">Product Search</a></h1></li>
+        </ul>
+    </nav>
+    {% block body %}{% endblock %}
+</body>
+</html>

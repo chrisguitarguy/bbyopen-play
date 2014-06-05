@@ -25,42 +25,92 @@ class Controller
     public function indexAction(Request $request)
     {
         $searchAttr = $this->extractSearch($request);
-        $page = $request->query->get('page');
+        $page = intval($request->query->get('page'));
+        $perPage = intval($request->query->get('per-page'));
+
+        if ($page <= 0) {
+            $page = 1;
+        }
+        if ($perPage <= 0) {
+            $perPage = null;
+        }
+        $nextLink = null;
+        $prevLink = null;
         $pages = null;
         $products = array();
         if (!empty($searchAttr)) {
-            list($products, $pages) = $this->fetchProducts($searchAttr);
+            list($products, $pages) = $this->fetchProducts($searchAttr, $page, $perPage);
+            if ($page < $pages) {
+                $nextLink = $this->pageLink($searchAttr, $page+1, $perPage);
+            }
+            if ($page > 1) {
+                $prevLink = $this->pageLink($searchAttr, $page-1, $perPage);
+            }
         }
 
-        return 'hello, world';
+        return $this->twig->render('products.html.twig', [
+            'nextLink'  => $nextLink,
+            'prevLink'  => $prevLink,
+            'products'  => $products,
+            'search'    => $this->safeSearchAttr($searchAttr, $perPage),
+        ]);
     }
 
     private function extractSearch(Request $request)
     {
         $qs = $request->query->all();
-        $exists = array_intersect([
+        $valid = [
+            'keyword',
             'new',
             'minimum-price',
             'maximum-price',
             'marketplace',
-        ], array_keys($qs));
+        ];
 
         $rv = array();
-        foreach ($exists as $key) {
-            $rv[$key] = $qs[$key];
+        foreach ($valid as $key) {
+            if (!empty($qs[$key])) {
+                $rv[$key] = $qs[$key];
+            }
         }
 
         return $rv;
     }
 
-    private function fetchProducts(array $searchAttr)
+    private function pageLink(array $searchAttr, $pageno, $perPage)
+    {
+        $searchAttr['page'] = $pageno;
+        if ($perPage) {
+            $searchAttr['per-page'] = $perPage;
+        }
+
+        return sprintf('/?%s', http_build_query($searchAttr));
+    }
+
+    private function fetchProducts(array $searchAttr, $pageno, $perPage)
     {
         try {
-            $response = $this->client->findProducts($searchAttr); // risky?
+            $response = $this->client->findProducts($searchAttr, $pageno, $perPage);
         } catch (\Exception $e) {
             return [array(), null];
         }
 
         return [$response['products'], $response['totalPages']];
+    }
+
+    private function safeSearchAttr(array $searchAttr, $perPage)
+    {
+        if ($perPage) {
+            $searchAttr['per-page'] = $perPage;
+        }
+
+        return array_replace([
+            'keyword'       => null,
+            'new'           => null,
+            'minimum-price' => null,
+            'maximum-price' => null,
+            'marketplace'   => null,
+            'per-page'      => 100,
+        ], $searchAttr);
     }
 }
