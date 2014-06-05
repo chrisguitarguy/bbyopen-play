@@ -23,6 +23,7 @@ class Kernel extends Application
 
         $this->env = $env ?: 'dev';
 
+        $this['debug'] = 'prod' !== $this->env;
         $this->register(new ServiceControllerServiceProvider());
         $this->register(new TwigServiceProvider(), [
             'twig.path'     => __DIR__.'/views',
